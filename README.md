@@ -1,220 +1,136 @@
-# sqlalchemy-challenge
-Before You Begin
-Create a new repository for this project called sqlalchemy-challenge. Do not add this assignment to an existing repository.
+SQLAlchemy Challenge
 
-Clone the new repository to your computer.
+1. Before You Begin
 
-Inside your local Git repository, create a directory for this Challenge. Use a folder name that corresponds to the Challenge, such as SurfsUp.
+1.1. Create a New Repository: Name the repository sqlalchemy-challenge. Do not add this assignment to an existing repository.
+1.2. Clone the Repository: Clone the newly created repository to your local computer.
+1.3. Setup Your Local Repository: Create a directory for this challenge, such as SurfsUp. Add the following files to this folder:
+    •    Jupyter Notebook for your analysis.
+    •    app.py for your Flask API.
+    •    The Resources folder containing your data files (e.g., hawaii.sqlite).
+1.4. Push Changes to GitHub: Commit your files with appropriate messages. Push them to your GitHub repository.
 
-Add your Jupyter notebook and app.py to this folder. They’ll contain the main scripts to run for analysis. Also add the Resources folder, which contains the data files you will be using for this challenge.
+2. Files
 
-Push the changes to GitHub or GitLab.
+Use the provided files:
+    •    climate_starter.ipynb
+    •    hawaii.sqlite
 
-Files
-Download the following files to help you get started:
+3. Instructions
 
-Module 10 Challenge filesLinks to an external site.
+3.1 Part 1: Analyze and Explore the Climate Data
 
-Instructions
-Congratulations! You've decided to treat yourself to a long holiday vacation in Honolulu, Hawaii. To help with your trip planning, you decide to do a climate analysis about the area. The following sections outline the steps that you need to take to accomplish this task.
+Goal: Perform basic climate analysis and data exploration using Python, SQLAlchemy, Pandas, and Matplotlib.
 
-Part 1: Analyze and Explore the Climate Data
-In this section, you’ll use Python and SQLAlchemy to do a basic climate analysis and data exploration of your climate database. Specifically, you’ll use SQLAlchemy ORM queries, Pandas, and Matplotlib. To do so, complete the following steps:
+3.1.1 Setup
 
-Note that you’ll use the provided files (climate_starter.ipynb and hawaii.sqlite) to complete your climate analysis and data exploration.
+    1.    Use SQLAlchemy create_engine() to connect to your SQLite database.
+    2.    Use SQLAlchemy automap_base() to reflect tables into classes, and save references to the station and measurement tables.
+    3.    Link Python to the database by creating a SQLAlchemy session.
+    4.    Close your session at the end of your notebook.
 
-Use the SQLAlchemy create_engine() function to connect to your SQLite database.
+3.1.2 Precipitation Analysis
 
-Use the SQLAlchemy automap_base() function to reflect your tables into classes, and then save references to the classes named station and measurement.
+    1.    Find the most recent date in the dataset.
+    2.    Query the last 12 months of precipitation data:
 
-Link Python to the database by creating a SQLAlchemy session.
+    •    Select only date and prcp values.
+    •    Load the results into a Pandas DataFrame and explicitly set column names.
+    •    Sort the DataFrame by date.
 
-important
-Remember to close your session at the end of your notebook.
+    3.    Plot the results using the Pandas plot method (e.g., date on X-axis, prcp on Y-axis).
+    4.    Use Pandas to print summary statistics for the precipitation data.
 
-Perform a precipitation analysis and then a station analysis by completing the steps in the following two subsections.
+3.1.3 Station Analysis
 
-Precipitation Analysis
-Find the most recent date in the dataset.
+    1.    Query the total number of stations in the dataset.
+    2.    Identify the most active stations:
 
-Using that date, get the previous 12 months of precipitation data by querying the previous 12 months of data.
+    •    List stations and observation counts in descending order.
+    •    Determine the station ID with the highest number of observations.
 
-hint
-Select only the "date" and "prcp" values.
+    3.    For the most active station:
 
-Load the query results into a Pandas DataFrame. Explicitly set the column names.
+    •    Calculate the minimum, maximum, and average temperatures.
+    •    Query the last 12 months of tobs data.
+    •    Plot the results as a histogram with bins=12.
 
-Sort the DataFrame values by "date".
+    4.    Close your session.
 
-Plot the results by using the DataFrame plot method, as the following image shows:
+3.2 Part 2: Design Your Climate App
 
-A screenshot depicts the plot.
+Goal: Use Flask to create API routes based on the queries developed in Part 1.
 
-Use Pandas to print the summary statistics for the precipitation data.
+Routes
 
-Station Analysis
-Design a query to calculate the total number of stations in the dataset.
+    1.    Homepage /: List all available routes.
+    2.    Precipitation /api/v1.0/precipitation: Query the last 12 months of precipitation data. Convert the results into a dictionary (date as key, prcp as value). Return the JSON representation.
+    3.    Stations /api/v1.0/stations: Return a JSON list of all stations in the dataset.
+    4.    Temperature Observations /api/v1.0/tobs: Query the dates and temperature observations of the most active station for the previous year. Return a JSON list of temperature observations.
+    5.    Dynamic Routes:
 
-Design a query to find the most-active stations (that is, the stations that have the most rows). To do so, complete the following steps:
+    •    /api/v1.0/<start>: Return the minimum, average, and maximum temperatures for dates greater than or equal to the start date.
+    •    /api/v1.0/<start>/<end>: Return the minimum, average, and maximum temperatures for the specified date range.
 
-List the stations and observation counts in descending order.
+4. Hints
 
-hint
-Answer the following question: which station id has the greatest number of observations?
-Design a query that calculates the lowest, highest, and average temperatures that filters on the most-active station id found in the previous query.
+    1.    Use joins between the station and measurement tables for some queries.
+    2.    Use Flask’s jsonify function to convert data into JSON responses.
 
-hint
-Design a query to get the previous 12 months of temperature observation (TOBS) data. To do so, complete the following steps:
+5. Requirements
 
-Filter by the station that has the greatest number of observations.
+5.1 Jupyter Notebook Database Connection (10 points)
 
-Query the previous 12 months of TOBS data for that station.
+    1.    Use create_engine() to connect to the database (1 point).
+    2.    Reflect tables into classes using automap_base() (3 points).
+    3.    Save references to station and measurement classes (4 points).
+    4.    Link Python to the database with a SQLAlchemy session (1 point).
+    5.    Close the session at the end of the notebook (1 point).
 
-Plot the results as a histogram with bins=12, as the following image shows:
+5.2 Precipitation Analysis (16 points)
 
-A screenshot depicts the histogram.
+    1.    Query the most recent date in the dataset (8/23/2017) (2 points).
+    2.    Query the last year of precipitation data (4 points).
+    3.    Load results into a Pandas DataFrame with date and prcp columns (2 points).
+    4.    Sort the DataFrame by date (2 points).
+    5.    Plot results with date on the X-axis and prcp on the Y-axis (4 points).
+    6.    Print summary statistics for precipitation data (2 points).
 
-Close your session.
+5.3 Station Analysis (16 points)
 
-Part 2: Design Your Climate App
-Now that you’ve completed your initial analysis, you’ll design a Flask API based on the queries that you just developed. To do so, use Flask to create your routes as follows:
+    1.    Query the total number of stations (2 points).
+    2.    List stations and observation counts, and identify the most active station (2 points).
+    3.    Query min, max, and average temperatures for the most active station (3 points).
+    4.    Query the last 12 months of tobs data for the most active station (3 points).
+    5.    Save results into a Pandas DataFrame (2 points).
+    6.    Plot a histogram with bins=12 for tobs data (4 points).
 
-/
+5.4 Flask API (40 points)
 
-Start at the homepage.
+    1.    Static Routes (25 points):
 
-List all the available routes.
+    •    /api/v1.0/precipitation: Return JSON of last year’s precipitation data (6 points).
+    •    /api/v1.0/stations: Return JSON of all stations (6 points).
+    •    /api/v1.0/tobs: Return JSON of last year’s temperature observations for the most active station (6 points).
 
-/api/v1.0/precipitation
+    2.    Dynamic Routes (15 points):
 
-Convert the query results from your precipitation analysis (i.e. retrieve only the last 12 months of data) to a dictionary using date as the key and prcp as the value.
+    •    /api/v1.0/<start>: Min, avg, and max temperatures from the start date (6 points).
+    •    /api/v1.0/<start>/<end>: Min, avg, and max temperatures for the date range (9 points).
 
-Return the JSON representation of your dictionary.
+5.5 Coding Conventions (8 points)
 
-/api/v1.0/stations
+    1.    Place imports at the top of the file (2 points).
+    2.    Use lowercase for function and variable names (2 points).
+    3.    Avoid repeating logic (2 points).
+    4.    Write concise and maintainable code (2 points).
 
-Return a JSON list of stations from the dataset.
-/api/v1.0/tobs
+5.6 Deployment and Submission (6 points)
 
-Query the dates and temperature observations of the most-active station for the previous year of data.
+    1.    Submit a GitHub link with all files included (2 points).
+    2.    Use the command line to add files to the repository (2 points).
+    3.    Include appropriate commit messages (2 points).
 
-Return a JSON list of temperature observations for the previous year.
+5.7 Comments (4 points)
 
-/api/v1.0/<start> and /api/v1.0/<start>/<end>
-
-Return a JSON list of the minimum temperature, the average temperature, and the maximum temperature for a specified start or start-end range.
-
-For a specified start, calculate TMIN, TAVG, and TMAX for all the dates greater than or equal to the start date.
-
-For a specified start date and end date, calculate TMIN, TAVG, and TMAX for the dates from the start date to the end date, inclusive.
-
-Hints
-Join the station and measurement tables for some of the queries.
-
-Use the Flask jsonify function to convert your API data to a valid JSON response object.
-
-Requirements
-Jupyter Notebook Database Connection (10 points)
-To receive all points, you must
-Use the SQLAlchemy create_engine() function to connect to your SQLite database (1 point)
-
-Use the SQLAlchemy automap_base() function to reflect your tables into classes (3 points)
-
-Save references to the classes named station and measurement (4 points)
-
-Link Python to the database by creating a SQLAlchemy session (1 point)
-
-Close your session at the end of your notebook (1 point)
-
-Precipitation Analysis (16 points)
-To receive all points, you must
-Create a query that finds the most recent date in the dataset (8/23/2017) (2 points)
-
-Create a query that collects only the date and precipitation for the last year of data without passing the date as a variable (4 points)
-
-Save the query results to a Pandas DataFrame to create date and precipitation columns (2 points)
-
-Sort the DataFrame by date (2 points)
-
-Plot the results by using the DataFrame plot method with date as the x and precipitation as the y variables (4 points)
-
-Use Pandas to print the summary statistics for the precipitation data (2 points)
-
-Station Analysis (16 points)
-To receive all points, you must
-Design a query that correctly finds the number of stations in the dataset (9) (2 points)
-
-Design a query that correctly lists the stations and observation counts in descending order and finds the most active station (USC00519281) (2 points)
-
-Design a query that correctly finds the min, max, and average temperatures for the most active station (USC00519281) (3 points)
-
-Design a query to get the previous 12 months of temperature observation (TOBS) data that filters by the station that has the greatest number of observations (3 points)
-
-Save the query results to a Pandas DataFrame (2 points)
-
-Correctly plot a histogram with bins=12 for the last year of data using tobs as the column to count. (4 points)
-
-API SQLite Connection & Landing Page (10 points)
-To receive all points, your Flask application must
-Correctly generate the engine to the correct sqlite file (2 points)
-
-Use automap_base() and reflect the database schema (2 points)
-
-Correctly save references to the tables in the sqlite file (measurement and station) (2 points)
-
-Correctly create and binds the session between the python app and database (2 points)
-
-Display the available routes on the landing page (2 points)
-
-API Static Routes (15 points)
-To receive all points, your Flask application must include
-A precipitation route that:
-
-Returns json with the date as the key and the value as the precipitation (3 points)
-
-Only returns the jsonified precipitation data for the last year in the database (3 points)
-
-A stations route that:
-
-Returns jsonified data of all of the stations in the database (3 points)
-A tobs route that:
-
-Returns jsonified data for the most active station (USC00519281) (3 points)
-
-Only returns the jsonified data for the last year of data (3 points)
-
-API Dynamic Route (15 points)
-To receive all points, your Flask application must include
-A start route that:
-
-Accepts the start date as a parameter from the URL (2 points)
-
-Returns the min, max, and average temperatures calculated from the given start date to the end of the dataset (4 points)
-
-A start/end route that:
-
-Accepts the start and end dates as parameters from the URL (3 points)
-
-Returns the min, max, and average temperatures calculated from the given start date to the given end date (6 points)
-
-Coding Conventions and Formatting (8 points)
-To receive all points, your code must
-Place imports at the top of the file, just after any module comments and docstrings, and before module globals and constants. (2 points)
-
-Name functions and variables with lowercase characters, with words separated by underscores. (2 points)
-
-Follow DRY (Don't Repeat Yourself) principles, creating maintainable and reusable code. (2 points)
-
-Use concise logic and creative engineering where possible. (2 points)
-
-Deployment and Submission (6 points)
-To receive all points, you must
-Submit a link to a GitHub repository that’s cloned to your local machine and contains your files. (2 points)
-
-Use the command line to add your files to the repository. (2 points)
-
-Include appropriate commit messages in your files. (2 points)
-
-Comments (4 points)
-To receive all points, your code must
-Be well commented with concise, relevant notes that other developers can understand. (4 points
+    1.    Add concise and relevant comments to explain your code (4 points).
